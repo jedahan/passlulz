@@ -26,6 +26,17 @@ logPassword = ->
     else
       next()
 
+getEntries = (req, res, next) ->
+  jb.find 'entries', (err, cursor, count) ->
+    if err
+      console.error(err)
+      res.send err
+    else
+      entries = []
+      while cursor.next()
+        entries.push cursor.object()
+      res.send entries
+
 # Server Options
 server = restify.createServer()
 server.pre restify.pre.userAgentConnection()
