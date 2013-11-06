@@ -1,4 +1,6 @@
 restify = require 'restify'
+ejdb = require "ejdb"
+jb = ejdb.open "passlulz"
 
 logPassword = ->
   (req, res, next) ->
@@ -13,6 +15,11 @@ logPassword = ->
       else if pass.length < 6
         res.send 'password must be more than 6 characters' unless pass.length > 6
       else
+        jb.save 'entries', entry, (err, object_ids) ->
+          if err
+            console.error(err)
+          else
+            console.log "object_id #{entry['_id']}"
         next()
     else
       next()
