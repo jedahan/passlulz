@@ -11,20 +11,34 @@ logPassword = ->
       entry = {username, password}
       console.log entry
       if not username?
-        res.send 'please enter a username' unless username?
+        res.send 'please enter a username'
       else if not password?
-        res.send 'password cannot be blank' unless password?
-      else if password.length < 6
-        res.send 'password must be more than 6 characters' unless password.length > 6
-      else
-        jb.save 'entries', entry, (err, object_ids) ->
-          if err
-            console.error(err)
-          else
-            console.log "object_id #{entry['_id']}"
-        next()
-    else
-      next()
+        res.send 'password cannot be blank'
+      else if password.length < 12
+        res.send 'password must be longer'
+      else if password.length > 12
+        res.send 'password must be shorter'
+      else if not /[A-Z]/.test password
+        res.send 'password must contain a capital letter'
+      else if password.replace(/[^A-Z]/g, "").length > 1
+        res.send 'password must contain only one capital letter'
+      else if not /[A-Z]/.test password[0]
+        res.send 'password must start with a capital letter'
+      else if not /[0-9]/.test password
+        res.send 'password must contain a number'
+      else if password.replace(/[^0-9]/g, "").length < 4
+        res.send 'password must contain more numbers'
+      else if password.replace(/[^0-9]/g, "").length > 4
+        res.send 'password must contain less numbers'
+      else if not /[0-9]/.test password[password.length-1]
+        res.send 'password must end with a number'
+
+      jb.save 'entries', entry, (err, object_ids) ->
+        if err
+          console.error(err)
+        else
+          console.log "object_id #{entry['_id']}"
+    next()
 
 getEntries = (req, res, next) ->
   jb.find 'entries', (err, cursor, count) ->
