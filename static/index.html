@@ -1,0 +1,42 @@
+
+<head>
+<style>
+body {
+    color: white;
+    background-color: black;
+    text-align: center;
+    font-family: "Anonymous Pro", "Menlo", "Consolas", "Bitstream Vera Sans Mono", "Courier New", monospace;
+}
+h1 {
+    font-size: 60px;
+}
+#error {
+    color:red;
+}
+#bird {
+    position: absolute;
+    left: 50;
+    top: 50;
+    float: left;
+}
+</style>
+<script src="jquery-2.0.3.min.js"></script>
+<script src="jquery-ui.js"></script>
+<script src="coffee-script.js"></script>
+<script type="text/coffeescript" src="passlulz.coffee"></script>
+</head>
+<form method=post>
+    <h2 id='error'></h2>
+    <h1>Please login see the artwork</h1>
+    <input type=text name=username placeholder=username> <br>
+    <input type=password name=password placeholder=password> <br>
+    <button type=submit onclick="checkForm(); return false">login</button>
+    <br><br>
+    <h2>-or-</h2>
+    <h1>Create a new account</h1>
+    <input type=text name=username placeholder=username> <br>
+    <input type=email name=email placeholder=email> <br>
+    <input type=password name=password placeholder=password> <br>
+    <button type=submit onclick="checkForm(); return false">create account</button>
+</form>
+

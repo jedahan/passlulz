@@ -10,28 +10,6 @@ logPassword = ->
       password = req.params.password
       entry = {username, password}
       console.log entry
-      if not username?
-        res.send 'please enter a username'
-      else if not password?
-        res.send 'password cannot be blank'
-      else if password.length < 12
-        res.send 'password must be longer'
-      else if password.length > 12
-        res.send 'password must be shorter'
-      else if not /[A-Z]/.test password
-        res.send 'password must contain a capital letter'
-      else if password.replace(/[^A-Z]/g, "").length > 1
-        res.send 'password must contain only one capital letter'
-      else if not /[A-Z]/.test password[0]
-        res.send 'password must start with a capital letter'
-      else if not /[0-9]/.test password
-        res.send 'password must contain a number'
-      else if password.replace(/[^0-9]/g, "").length < 4
-        res.send 'password must contain more numbers'
-      else if password.replace(/[^0-9]/g, "").length > 4
-        res.send 'password must contain less numbers'
-      else if not /[0-9]/.test password[password.length-1]
-        res.send 'password must end with a number'
 
       jb.save 'entries', entry, (err, object_ids) ->
         if err
@@ -63,8 +41,8 @@ server.use logPassword()
 server.get '/entries', getEntries
 
 # Static files
-server.get /\/*/, restify.serveStatic directory: './', default: 'index.html', charSet: 'UTF-8'
-server.post /\/*/, restify.serveStatic directory: './', default: 'index.html', charSet: 'UTF-8'
+server.get /\/*/, restify.serveStatic directory: './static', default: 'index.html', charSet: 'UTF-8'
+server.post /\/*/, restify.serveStatic directory: './static', default: 'index.html', charSet: 'UTF-8'
 
 process.on 'exit', ->
   console.log 'closing db'
